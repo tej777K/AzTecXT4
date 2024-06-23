@@ -64,9 +64,10 @@ def index():
 
                 with open(file_path, "rb") as image_stream:
                     img = image_stream.read()
-                    result = client.analyze_image(
-                        image=img,
+                    result = client.analyze(
+                        image_data = img,
                         visual_features=[VisualFeatures.CAPTION, VisualFeatures.READ],
+                        gender_neutral_caption=True,
                     )
                 caption = result.caption.text if result.caption else "No caption found"
                 os.remove(file_path)
