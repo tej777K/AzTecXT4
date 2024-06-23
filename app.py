@@ -7,18 +7,14 @@ from azure.ai.vision.imageanalysis.models import VisualFeatures
 from azure.core.credentials import AzureKeyCredential
 from configparser import ConfigParser
 
-# Set up logging
 logging.basicConfig(level=logging.INFO)
 
-# Initialize Flask app
 app = Flask(__name__)
 
-# Configuration
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
-# Load configuration from config.ini
 config = ConfigParser()
 config.read("config.ini")
 endpoint = config['CREDENTIALS']['ENDPOINT']
@@ -27,13 +23,12 @@ key = config['CREDENTIALS']['KEY']
 if not endpoint or not key:
     raise ValueError("Set ENDPOINT and KEY in config.ini file.")
 
-# Initialize the Image Analysis client
+
 client = ImageAnalysisClient(
     endpoint=endpoint,
     credential=AzureKeyCredential(key)
 )
 
-# Ensure UPLOAD_FOLDER exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     try:
         os.makedirs(app.config['UPLOAD_FOLDER'])
